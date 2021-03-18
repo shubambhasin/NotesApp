@@ -75,8 +75,6 @@ export default function App() {
     }
   }, []);
 
-  useEffect(() => {}, [note]);
-
   const handleInput = (e) => {
     setCurrentNote(e.target.value);
   };
@@ -102,11 +100,11 @@ export default function App() {
           label: label
         }
       ];
-console.log(note2)
-setNote([...note2])
-localStorage.setItem("notes", JSON.stringify([...note2]))
-setCurrentNote("");
-  setCurrentContent("");
+      console.log(note2);
+      setNote([...note2]);
+      localStorage.setItem("notes", JSON.stringify([...note2]));
+      setCurrentNote("");
+      setCurrentContent("");
     }
   };
 
@@ -126,6 +124,18 @@ setCurrentNote("");
   //   setCurrentNote("");
   //   setCurrentContent("");
   // };
+
+  const removeNote = (e) => {
+    console.log(e.target.value);
+    const id = e.target.value;
+    const newList = JSON.parse(localStorage.getItem("notes")).filter(
+      (data) => data.id !== id
+    );
+    console.log(newList);
+    localStorage.setItem("notes", JSON.stringify([...newList]))
+    setNote([...newList])
+
+  };
 
   return (
     <div className="App">
@@ -185,6 +195,9 @@ setCurrentNote("");
               <h3>{title}</h3>
               <p>{content}</p>
               <button>Edit</button>
+              <button value={id} onClick={removeNote}>
+                Remove
+              </button>
             </Note>
           );
         })}
